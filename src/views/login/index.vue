@@ -59,7 +59,7 @@
       >登录</el-button>
 
       <div class="tips">
-        <span style="margin-right: 20px">账号: 13800000002</span>
+        <span style="margin-right: 20px">账号: 13800000004</span>
         <span> 密码: 123456</span>
       </div>
     </el-form>
@@ -68,6 +68,7 @@
 
 <script>
 import { validMobile } from '@/utils/validate'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'Login',
@@ -123,6 +124,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['user/login']),
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -134,21 +136,19 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store
-            .dispatch('user/login', this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
-              this.loading = false
-            })
-            .catch(() => {
-              this.loading = false
-            })
-        } else {
-          console.log('error submit!!')
-          return false
+      this.$refs.loginForm.validate(async isOk => {
+        if (isOk) {
+          try {
+            this.loading = true // 开启loding的转圈效果
+            // this.$store.dispatch('user/login')  方法1
+            await this['user/login'](this.loginForm)
+            this.$router.push('/') // 登录成功.跳转主页
+          } catch (error) {
+            console.log(error)
+          } finally {
+            // 不论执行成功或失败 都去关闭转圈
+            this.loading = false
+          }
         }
       })
     }

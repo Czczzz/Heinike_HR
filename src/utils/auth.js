@@ -14,3 +14,14 @@ export function setToken(token) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+
+// 设置唯一的key
+const timekey = 'HR-timestamp-key'
+//  获取时间戳
+export function getTimeStamp() {
+  return Cookies.get(timekey)
+}
+// 设置时间戳
+export function setTimeStamp() {
+  return Cookies.set(timekey, Date.now())
+}

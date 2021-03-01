@@ -9,14 +9,31 @@ export function login(data) {
   })
 }
 
-export function getInfo(token) {
+// 获取用户的基本资料
+export function getUserInfo() {
   return request({
-
+    url: '/sys/profile/',
+    method: 'post'
   })
 }
 
-export function logout() {
+// 获取用户的基本资料里的头像
+export function getUserDetailById(id) {
   return request({
-
+    url: `/sys/user/${id}`
+    //  该请求为get 默认就是 不用写
   })
 }
+
+// export function getInfo(token) {
+//   return request({
+
+//   })
+// }
+
+// export function logout() {
+//   return request({
+
+//   })
+// }
+
